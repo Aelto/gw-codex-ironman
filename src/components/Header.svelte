@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { store_selected_outpost, store_outposts } from "../stores/outposts";
   import {
     store_available_secondary_professions,
     store_character_name,
@@ -35,16 +34,20 @@
 
     <button
       class:active={$store_campaign == "Prophecies"}
-      on:click={() => store_campaign.set("Prophecies")}>Prophecies</button>
+      on:click={() => store_campaign.set("Prophecies")}>Prophecies</button
+    >
     <button
       class:active={$store_campaign == "Factions"}
-      on:click={() => store_campaign.set("Factions")}>Factions</button>
+      on:click={() => store_campaign.set("Factions")}>Factions</button
+    >
     <button
       class:active={$store_campaign == "Nightfall"}
-      on:click={() => store_campaign.set("Nightfall")}>Nightfall</button>
+      on:click={() => store_campaign.set("Nightfall")}>Nightfall</button
+    >
     <button
       class:active={$store_campaign == "GWEN"}
-      on:click={() => store_campaign.set("GWEN")}>GWEN</button>
+      on:click={() => store_campaign.set("GWEN")}>GWEN</button
+    >
   </div>
 
   <div class="actions">
@@ -52,7 +55,8 @@
       type="text"
       placeholder="Character name"
       bind:this={field_character_name}
-      bind:value={$store_character_name} />
+      bind:value={$store_character_name}
+    />
     <select name="primary-profession" bind:value={$store_primary_profession}>
       {#each all_professions as profession}
         <option value={profession}>{profession}</option>
@@ -60,7 +64,8 @@
     </select>
     <select
       name="secondary-profession"
-      bind:value={$store_secondary_profession}>
+      bind:value={$store_secondary_profession}
+    >
       {#each $store_available_secondary_professions as profession}
         <option value={profession}>{profession}</option>
       {/each}
@@ -70,7 +75,8 @@
 
     <div
       class="skill-packs"
-      title="Set one or more skill packs to use while generating the codex skills">
+      title="Set one or more skill packs to use while generating the codex skills"
+    >
       <span> Skill packs: </span>
 
       {#each ALL_SKILL_ORIGINS as pack}
@@ -80,7 +86,8 @@
           id={pack}
           style="display: none;"
           bind:group={$store_selected_skillpacks}
-          value={pack} />
+          value={pack}
+        />
         <label for={pack}>{pack}</label>
       {/each}
     </div>

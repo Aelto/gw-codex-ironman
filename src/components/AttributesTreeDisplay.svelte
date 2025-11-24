@@ -43,7 +43,8 @@
         attributes={tree.attributes}
         {profession}
         {secondary_profession}
-        build={skillbar} />
+        build={skillbar}
+      />
     {/each}
   </div>
 </div>

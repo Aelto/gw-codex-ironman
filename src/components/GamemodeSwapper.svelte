@@ -10,7 +10,8 @@
 {#if $store_gamemode == "normal"}
   <button
     on:click={() => store_gamemode.set("hard")}
-    on:contextmenu={(e) => previous(e, "attributes")}>
+    on:contextmenu={(e) => previous(e, "attributes")}
+  >
     Normal
   </button>
 {/if}
@@ -18,7 +19,8 @@
   <button
     class="hardmode"
     on:click={() => store_gamemode.set("attributes")}
-    on:contextmenu={(e) => previous(e, "normal")}>
+    on:contextmenu={(e) => previous(e, "normal")}
+  >
     Hard
   </button>
 {/if}
@@ -26,7 +28,8 @@
   <button
     class="attributes"
     on:click={() => store_gamemode.set("normal")}
-    on:contextmenu={(e) => previous(e, "hard")}>
+    on:contextmenu={(e) => previous(e, "hard")}
+  >
     Attributes
   </button>
 {/if}

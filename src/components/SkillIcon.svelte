@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import type { Profession } from "../game/professions";
   import type { SkillsetEntry } from "../stores/builds";
   import { store_wiki_iframe } from "../stores/wiki-iframe";
 
@@ -56,7 +55,8 @@
   class:elite={skill.options.is_elite}
   class:selfheal={skill.options.is_self_heal}
   class:disabled={skill.disabled}
-  class:compact>
+  class:compact
+>
   <img {src} alt="" />
   <span class="name">{skill.name}</span>
 </a>

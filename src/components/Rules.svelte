@@ -7,7 +7,8 @@
 
   <p>
     Similar to the <a href="https://wiki.guildwars.com/wiki/Codex_Arena"
-      >Codex Arena</a>
+      >Codex Arena</a
+    >
     where players have a limited skill pool available to them everyday, you must
     complete the campaigns with a set of skills that varies as you progress.
   </p>
@@ -31,7 +32,8 @@
       <p>
         Create a fresh character using the <a
           href="https://wiki.guildwars.com/wiki/User:Hazedesunna/Ironman"
-          >Ironman rules</a>
+          >Ironman rules</a
+        >
         of your choice.
       </p>
     </div>
@@ -97,7 +99,8 @@
   <p>Start by entering your character name</p>
 
   <button on:click={() => store_input_focus.set(InputFocusState.CharacterName)}
-    >Start</button>
+    >Start</button
+  >
 </section>
 
 <style>

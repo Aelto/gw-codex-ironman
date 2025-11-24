@@ -1,9 +1,6 @@
 <script lang="ts">
-  import type { Profession } from "../game/professions";
-  import type { Skill } from "../game/skills";
   import type { SkillsetEntry } from "../stores/builds";
   import { store_compact_icons } from "../stores/compact_icons";
-  import { store_wiki_iframe } from "../stores/wiki-iframe";
   import SkillIcon from "./SkillIcon.svelte";
 
   export let skills: SkillsetEntry[] = [];
