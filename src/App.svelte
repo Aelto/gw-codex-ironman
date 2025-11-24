@@ -88,9 +88,11 @@
         type="checkbox"
         name="compact-mode"
         id="compact-mode"
-        bind:checked={$store_compact_icons} />
+        bind:checked={$store_compact_icons}
+      />
       <label for="compact-mode"
-        >{$store_compact_icons ? "Compact" : "Large"} icons</label>
+        >{$store_compact_icons ? "Compact" : "Large"} icons</label
+      >
 
       <button on:click={copyUrl}
         ><svg
@@ -99,11 +101,13 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6">
+          class="w-6 h-6"
+        >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+          />
         </svg>
       </button>
     </div>
@@ -112,12 +116,14 @@
       <select
         class="outpost-name"
         name="outpost"
-        bind:value={$store_selected_outpost}>
+        bind:value={$store_selected_outpost}
+      >
         {#each $store_outposts as region}
           <optgroup label={region.name}>
             {#each region.outposts as outpost}
               <option class="outpost-option" value={outpost}
-                >{outpost.name}</option>
+                >{outpost.name}</option
+              >
             {/each}
           </optgroup>
         {/each}
@@ -145,18 +151,21 @@
       {#if $store_gamemode !== "attributes"}
         <SkillsetDisplay
           profession={$store_primary_profession}
-          skillset={primary_skillset} />
+          skillset={primary_skillset}
+        />
 
         {#if $store_secondary_profession !== "none"}
           <SkillsetDisplay
             profession={$store_secondary_profession}
-            skillset={secondary_skillset} />
+            skillset={secondary_skillset}
+          />
         {/if}
       {:else}
         <AttributesTreeDisplay
           profession={$store_primary_profession}
           secondary_profession={$store_secondary_profession}
-          tree={$store_attributes} />
+          tree={$store_attributes}
+        />
       {/if}
     </div>
 

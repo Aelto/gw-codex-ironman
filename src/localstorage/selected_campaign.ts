@@ -8,5 +8,5 @@ export function setSelectedCampaignLs(campaign: Campaign) {
 }
 
 export function getSelectedCampaignLs(): Campaign {
-  return (localStorage.getItem(KEY) as Campaign) || "Prophecy";
+  return (localStorage.getItem(KEY) as Campaign) || "Prophecies";
 }

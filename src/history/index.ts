@@ -7,7 +7,11 @@ import {
 import { store_outposts, store_selected_outpost } from "../stores/outposts";
 import { store_campaign, type Campaign } from "../stores/campaign";
 import type { Profession, SecondaryProfession } from "../game/professions";
-import { getOutpostByLink, getOutpostNyName, type Outpost } from "../game/outposts";
+import {
+  getOutpostByLink,
+  getOutpostNyName,
+  type Outpost,
+} from "../game/outposts";
 import { store_selected_skillpacks } from "../stores/skillpacks";
 import type { SkillOrigin } from "../game/codegen/subgroups/campaigns";
 
@@ -67,7 +71,7 @@ export function getSkillpacksFromUrl() {
 
 export interface HistoryState {
   campaign: Campaign;
-  outpost_link: Outpost["link"]
+  outpost_link: Outpost["link"];
 }
 
 export function pushHistoryState(state: HistoryState) {
@@ -76,8 +80,10 @@ export function pushHistoryState(state: HistoryState) {
   } else {
     const current_state = history.state as HistoryState;
 
-
-    if (state.campaign === current_state.campaign && state.outpost_link === current_state.outpost_link) {
+    if (
+      state.campaign === current_state.campaign &&
+      state.outpost_link === current_state.outpost_link
+    ) {
       return;
     }
 
@@ -85,7 +91,7 @@ export function pushHistoryState(state: HistoryState) {
   }
 }
 
-window.addEventListener('popstate', (event) => {
+window.addEventListener("popstate", (event) => {
   const current_state = event.state as HistoryState;
 
   store_campaign.set(current_state.campaign);
@@ -95,5 +101,4 @@ window.addEventListener('popstate', (event) => {
 
     store_selected_outpost.set(outpost);
   }, 100);
-})
-
+});

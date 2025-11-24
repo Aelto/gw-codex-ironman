@@ -54,7 +54,8 @@
   <span
     on:click={increaseCount}
     on:contextmenu={decreaseCount}
-    title="click to increase by 1, right click to decrease by 1">Players</span>
+    title="click to increase by 1, right click to decrease by 1">Players</span
+  >
   <select bind:value={$store_players_count} title={tooltip}>
     <option value={1}>1</option>
     <option value={2}>2</option>

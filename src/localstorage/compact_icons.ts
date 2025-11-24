@@ -9,8 +9,7 @@ export function setCompactIconsLs(enabled: boolean) {
 
   if (enabled) {
     localStorage.setItem(KEY, "");
-  }
-  else {
+  } else {
     localStorage.removeItem(KEY);
   }
 }
