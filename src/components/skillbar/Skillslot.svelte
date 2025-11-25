@@ -17,10 +17,19 @@
   let previewed_skill: SkillbarEntry = $state();
   let disable_preview = $state(false);
 
-  let is_elite =
-    $derived(previewed_skill?.skill?.options?.is_elite ||
-    equipped_skill?.skill?.options?.is_elite ||
-    false);
+  // there is an issue where the dragLeave & dragEnter events are repeated
+  // infinitely as long as the cursor (while holding the skill icon) is over
+  // a slot. The counting helps understand when it's a repeated event vs the
+  // cursor really leaving a skill slot (when the counter is below 0) because
+  // on repeated events it's always a `enter + leave` while a real leave event
+  // is just a `leave`.
+  let entered_count = $state(0);
+
+  let is_elite = $derived(
+    previewed_skill?.skill?.options?.is_elite ||
+      equipped_skill?.skill?.options?.is_elite ||
+      false
+  );
 
   store_skillbar.subscribe((map) => {
     equipped_skill = map.get(slot_number);
@@ -37,12 +46,13 @@
     addSkilltoSkillbar(slot_number, skill, profession);
   }
 
-  // frop the drop event to work, the drop event must call preventDefault();
+  // for the drop event to work, the drop event must call preventDefault();
   function dragOver(e) {
     e.preventDefault();
   }
 
   function dragEnter(e) {
+    entered_count += 1;
     const { skill, profession } = JSON.parse(
       e.dataTransfer.getData("text/plain")
     );
@@ -51,45 +61,54 @@
   }
 
   function dragLeave() {
-    previewed_skill = null;
+    entered_count = Math.max(entered_count - 1, 0);
+
+    if (entered_count <= 0) {
+      previewed_skill = null;
+    }
   }
 
   function dragStart() {
     disable_preview = true;
   }
 
-  function dragEnd({ detail }) {
+  function dragEnd({ success }) {
     disable_preview = false;
 
-    if (!detail.success) {
+    entered_count = 0;
+
+    if (!success) {
       removeSkillFromSkillslot(slot_number);
     }
   }
 </script>
 
-<div
+<button
   class="skillslot"
   class:elite={is_elite}
   ondragover={dragOver}
   ondrop={equipSkill}
   ondragleave={dragLeave}
-  ondragenter={dragEnter}>
+  ondragenter={dragEnter}
+>
   {#if previewed_skill && !disable_preview}
     <SkillIcon
       skill={previewed_skill.skill}
       compact={!is_elite}
-      on:drag-start={dragStart}
-      on:drag-end={dragEnd} />
+      {dragStart}
+      {dragEnd}
+    />
   {:else if equipped_skill}
     <SkillIcon
       skill={equipped_skill.skill}
       compact={!is_elite}
-      on:drag-start={dragStart}
-      on:drag-end={dragEnd} />
+      {dragStart}
+      {dragEnd}
+    />
   {:else}
     {slot_number + 1}
   {/if}
-</div>
+</button>
 
 <style>
   .skillslot {
@@ -100,5 +119,11 @@
     min-height: calc(64px + 8px);
     min-width: calc(64px + 8px);
     outline: solid 1px whitesmoke;
+    border: solid 0px;
+
+    &:hover {
+      outline: none;
+      border: solid 0px;
+    }
   }
 </style>

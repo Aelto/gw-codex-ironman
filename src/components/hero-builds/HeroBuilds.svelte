@@ -19,7 +19,9 @@
 
   // github pages aren't hosted on a domain's root, each repository is in a sub
   // folder, so this is a way to get icons to load once pushed to production.
-  const image_root = import.meta.env.PROD ? import.meta.env.BASE_URL : "";
+  const image_root = import.meta.env.PROD
+    ? import.meta.env.BASE_URL
+    : "/gw-codex-ironman";
 
   async function generateTemplateZipFile() {
     //@ts-ignore

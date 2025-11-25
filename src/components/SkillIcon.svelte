@@ -1,27 +1,50 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
   import type { SkillsetEntry } from "../stores/builds";
   import { store_wiki_iframe } from "../stores/wiki-iframe";
+  import type { Profession } from "../game/professions";
+
+  interface DragStartData {
+    skill: SkillsetEntry;
+    profession: Profession;
+  }
+
+  interface DragEndData {
+    success: boolean;
+  }
 
   interface Props {
     skill: SkillsetEntry;
     compact?: boolean;
+    dragStart?: (data: DragStartData) => void;
+    dragEnd?: (data: DragEndData) => void;
+    onDragEnterPassthrough?;
+    onDragLeavePassthrough?;
   }
 
-  let { skill, compact = false }: Props = $props();
+  let {
+    skill,
+    compact = false,
+    dragStart,
+    dragEnd,
+    onDragEnterPassthrough,
+    onDragLeavePassthrough,
+  }: Props = $props();
 
   let profession = $derived(skill.options.profession);
 
-  const dispatch = createEventDispatcher();
   // github pages aren't hosted on a domain's root, each repository is in a sub
   // folder, so this is a way to get icons to load once pushed to production.
-  const image_root = import.meta.env.PROD ? import.meta.env.BASE_URL : "";
+  const image_root = import.meta.env.PROD
+    ? import.meta.env.BASE_URL
+    : "/gw-codex-ironman";
 
   // the global pve skills are not tied to a profession, their path points to a
   // special directory
-  let src = $derived(skill.options.is_global_pve_skill
-    ? `${image_root}/skill-icons/global-pve/${skill.icon}`
-    : `${image_root}/skill-icons/${profession}/${skill.icon}`);
+  let src = $derived(
+    skill.options.is_global_pve_skill
+      ? `${image_root}/skill-icons/global-pve/${skill.icon}`
+      : `${image_root}/skill-icons/${profession}/${skill.icon}`
+  );
 
   function setWikiIframe(e, skill: SkillsetEntry) {
     e.preventDefault();
@@ -38,14 +61,18 @@
     e.dataTransfer.setData("text/plain", JSON.stringify(drag_data));
     e.dataTransfer.setDragImage(img, 48, 48);
 
-    dispatch("drag-start", drag_data);
+    if (dragStart) {
+      dragStart(drag_data);
+    }
   }
 
   function onDragEnd(e) {
     // whether dropEffect is "none" can be used to detect if the drag operation
     // succeeded and ended on a valid drop target or not. If it doesn't exist
     // the operation did not end on a valid target and was cancelled.
-    dispatch("drag-end", { success: e.dataTransfer.dropEffect !== "none" });
+    if (dragEnd) {
+      dragEnd({ success: e.dataTransfer.dropEffect !== "none" });
+    }
   }
 </script>
 
@@ -53,6 +80,8 @@
   ondragstart={onDragStart}
   ondragend={onDragEnd}
   draggable="true"
+  ondragenter={(e) => onDragEnterPassthrough && onDragEnterPassthrough(e)}
+  ondragleave={(e) => onDragEnterPassthrough && onDragLeavePassthrough(e)}
   onclick={(e) => setWikiIframe(e, skill)}
   class="skill"
   href={`https://wiki.guildwars.com/?search=${skill.name}`}
