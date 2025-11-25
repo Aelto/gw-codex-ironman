@@ -8,7 +8,12 @@ import { ALL_WARRIOR_WEAPON_TYPES } from "../codegen/subgroups/weapons";
 import type { Outpost } from "../outposts";
 import type { Profession } from "../professions";
 import { Rng } from "../rng";
-import skills, { common_skills_database, pve_database, type Skill } from "../skills";
+import skills, {
+  common_skills_database,
+  common_skills_database_nightfall,
+  pve_database,
+  type Skill,
+} from "../skills";
 import { setCachedBuild } from "./cache";
 
 export class BuildGenerator {
@@ -211,7 +216,12 @@ export class BuildGenerator {
    * - rangers get Charm Animal
    * - assassins get a lead & an off-hand attack
    */
-  public withInheritedSkills(profession: Profession, is_primary_profession: boolean, is_hero_build: boolean): BuildGenerator {
+  public withInheritedSkills(
+    profession: Profession,
+    is_primary_profession: boolean,
+    is_hero_build: boolean,
+    available_skill_origins: Set<SkillOrigin>
+  ): BuildGenerator {
     if (profession === "assassin") {
       this.addSubsetSkillsToSkillset(
         this.subsets.regulars.filter((s) => s.options.is_lead_attack),
@@ -255,7 +265,7 @@ export class BuildGenerator {
 
     if (!is_hero_build && is_primary_profession) {
       this.addSubsetSkillsToSkillset(
-        this.getGuaranteedSkills(),
+        this.getGuaranteedSkills(available_skill_origins),
         Infinity
       );
     }
@@ -354,8 +364,20 @@ export class BuildGenerator {
     return this.rng.nextRange(max);
   }
 
-  private getGuaranteedSkills(): Skill[] {
-    return common_skills_database;
+  private getGuaranteedSkills(
+    available_skill_origins: Set<SkillOrigin>
+  ): Skill[] {
+    const output = [];
+
+    if (available_skill_origins.has("Core")) {
+      output.push(...common_skills_database);
+    }
+
+    if (available_skill_origins.has("Nightfall")) {
+      output.push(...common_skills_database_nightfall);
+    }
+
+    return output;
   }
 
   private addSubsetSkillsToSkillset(

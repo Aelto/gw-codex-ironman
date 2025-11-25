@@ -3582,16 +3582,21 @@ export default database;
 
 export const common_skills_database = [
   makeSkill("/wiki/File:Signet_of_Capture.jpg", { is_global_pve_skill: true }),
-  makeSkill("/wiki/File:Lightbringer_Signet.jpg", { is_global_pve_skill: true }),
-  makeSkill("/wiki/File:Lightbringer%27s_Gaze.jpg", { is_global_pve_skill: true }),
-  makeSkill("/wiki/File:Resurrection_Signet.jpg", { is_global_pve_skill: true }),
-]
+  makeSkill("/wiki/File:Resurrection_Signet.jpg", {
+    is_global_pve_skill: true,
+  }),
+];
+
+export const common_skills_database_nightfall = [
+  makeSkill("/wiki/File:Lightbringer_Signet.jpg", {
+    is_global_pve_skill: true,
+  }),
+  makeSkill("/wiki/File:Lightbringer%27s_Gaze.jpg", {
+    is_global_pve_skill: true,
+  }),
+];
 
 export const pve_database = [
-  
-
-  
-
   makeSkill("/wiki/File:Air_of_Superiority.jpg", { is_global_pve_skill: true }),
   makeSkill("/wiki/File:Asuran_Scan.jpg", { is_global_pve_skill: true }),
   makeSkill("/wiki/File:Mental_Block.jpg", { is_global_pve_skill: true }),
