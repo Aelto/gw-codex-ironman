@@ -8,10 +8,14 @@
   import { store_henchmen_count } from "../../stores/henchmen";
   import HeroSkillbar from "./HeroSkillbar.svelte";
 
-  export let profession: Profession = "warrior";
-  export let region: Region = all_regions[0];
+  interface Props {
+    profession?: Profession;
+    region?: Region;
+  }
 
-  $: builds = generateHeroBuilds($store_character_name, profession, region);
+  let { profession = "warrior", region = all_regions[0] }: Props = $props();
+
+  let builds = $derived(generateHeroBuilds($store_character_name, profession, region));
 </script>
 
 <div class="builds-preview">

@@ -3,7 +3,11 @@
   import { store_compact_icons } from "../stores/compact_icons";
   import SkillIcon from "./SkillIcon.svelte";
 
-  export let skills: SkillsetEntry[] = [];
+  interface Props {
+    skills?: SkillsetEntry[];
+  }
+
+  let { skills = [] }: Props = $props();
 </script>
 
 <div class="skill-list" class:compact={$store_compact_icons}>

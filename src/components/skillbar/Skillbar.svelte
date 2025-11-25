@@ -49,7 +49,7 @@
 
   {#if $store_skillbar.size > 0}
     <div class="actions">
-      <button on:click={clearSkillbar} title="Clear skill bar">
+      <button onclick={clearSkillbar} title="Clear skill bar">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -64,7 +64,7 @@
         </svg>
       </button>
       <button
-        on:click={copyBuildTemplate}
+        onclick={copyBuildTemplate}
         title="Generate & copy build template code">
         <svg
           xmlns="http://www.w3.org/2000/svg"

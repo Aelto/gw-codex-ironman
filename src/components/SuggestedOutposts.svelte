@@ -41,13 +41,13 @@
 
 <div class="suggested-outposts" use:listenArrowKeys={() => {}}>
   {#each $store_suggested_outposts.slice(0, 2) as outpost}
-    <button class="outpost" on:click={() => onClickedSuggestedOutpost(outpost)}>
+    <button class="outpost" onclick={() => onClickedSuggestedOutpost(outpost)}>
       {outpost.name}
     </button>
   {/each}
   <span>↔</span>
   {#each $store_suggested_outposts.slice(2) as outpost}
-    <button class="outpost" on:click={() => onClickedSuggestedOutpost(outpost)}>
+    <button class="outpost" onclick={() => onClickedSuggestedOutpost(outpost)}>
       {outpost.name}
     </button>
   {/each}

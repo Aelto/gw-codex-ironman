@@ -98,7 +98,7 @@
 
   <p>Start by entering your character name</p>
 
-  <button on:click={() => store_input_focus.set(InputFocusState.CharacterName)}
+  <button onclick={() => store_input_focus.set(InputFocusState.CharacterName)}
     >Start</button
   >
 </section>

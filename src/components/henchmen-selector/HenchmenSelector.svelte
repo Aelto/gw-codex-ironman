@@ -5,24 +5,8 @@
 
   const MAX_HENCHMEN = 7;
 
-  $: tooltip_penalty_primary = getSkillPenalty(
-    $store_players_count,
-    $store_henchmen_count,
-    true
-  );
-  $: tooltip_penalty_secondary = getSkillPenalty(
-    $store_players_count,
-    $store_henchmen_count,
-    false
-  );
 
-  $: tooltip = [
-    `${tooltip_penalty_primary} disabled skills from primary profession`,
-    `${tooltip_penalty_secondary} disabled skills from secondary profession`,
-  ].join("\n");
 
-  $: henchmen_percent = ($store_henchmen_count / 7) * 100;
-  $: background_gradient = getBackgroundGradient(henchmen_percent);
 
   function increaseCount() {
     store_henchmen_count.update((count) => Math.min(count + 1, MAX_HENCHMEN));
@@ -47,14 +31,30 @@
     const white = `white ${Number(henchmen_percent) + 15}%`;
     return `linear-gradient(180deg, ${colored}, ${white})`;
   }
+  let tooltip_penalty_primary = $derived(getSkillPenalty(
+    $store_players_count,
+    $store_henchmen_count,
+    true
+  ));
+  let tooltip_penalty_secondary = $derived(getSkillPenalty(
+    $store_players_count,
+    $store_henchmen_count,
+    false
+  ));
+  let tooltip = $derived([
+    `${tooltip_penalty_primary} disabled skills from primary profession`,
+    `${tooltip_penalty_secondary} disabled skills from secondary profession`,
+  ].join("\n"));
+  let henchmen_percent = $derived(($store_henchmen_count / 7) * 100);
+  let background_gradient = $derived(getBackgroundGradient(henchmen_percent));
 </script>
 
 <div class="henchmen-selector" style={`background: ${background_gradient}`}>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
   <span
     title="click to increase by 1, right click to decrease by 1"
-    on:click={increaseCount}
-    on:contextmenu={decreaseCount}>Henchmen</span
+    onclick={increaseCount}
+    oncontextmenu={decreaseCount}>Henchmen</span
   >
   <select bind:value={$store_henchmen_count} title={tooltip}>
     <option value={0}>0</option>

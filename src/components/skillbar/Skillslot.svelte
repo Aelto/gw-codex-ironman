@@ -7,16 +7,20 @@
   } from "../../stores/skillbar";
   import SkillIcon from "../SkillIcon.svelte";
 
-  export let slot_number: number = 0;
+  interface Props {
+    slot_number?: number;
+  }
 
-  let equipped_skill: SkillbarEntry;
-  let previewed_skill: SkillbarEntry;
-  let disable_preview = false;
+  let { slot_number = 0 }: Props = $props();
 
-  $: is_elite =
-    previewed_skill?.skill?.options?.is_elite ||
+  let equipped_skill: SkillbarEntry = $state();
+  let previewed_skill: SkillbarEntry = $state();
+  let disable_preview = $state(false);
+
+  let is_elite =
+    $derived(previewed_skill?.skill?.options?.is_elite ||
     equipped_skill?.skill?.options?.is_elite ||
-    false;
+    false);
 
   store_skillbar.subscribe((map) => {
     equipped_skill = map.get(slot_number);
@@ -66,10 +70,10 @@
 <div
   class="skillslot"
   class:elite={is_elite}
-  on:dragover={dragOver}
-  on:drop={equipSkill}
-  on:dragleave={dragLeave}
-  on:dragenter={dragEnter}>
+  ondragover={dragOver}
+  ondrop={equipSkill}
+  ondragleave={dragLeave}
+  ondragenter={dragEnter}>
   {#if previewed_skill && !disable_preview}
     <SkillIcon
       skill={previewed_skill.skill}

@@ -36,16 +36,16 @@
   import AttributesTree from "./components/AttributesTreeDisplay.svelte";
   import AttributesTreeDisplay from "./components/AttributesTreeDisplay.svelte";
 
-  $: primary_skillset = $store_skillset.get($store_primary_profession);
-  $: secondary_skillset =
-    $store_secondary_profession !== "none"
+  let primary_skillset = $derived($store_skillset.get($store_primary_profession));
+  let secondary_skillset =
+    $derived($store_secondary_profession !== "none"
       ? $store_skillset.get($store_secondary_profession)
-      : null;
+      : null);
 
-  $: can_display_skillsets =
-    ((Boolean(primary_skillset) && primary_skillset.size) ||
+  let can_display_skillsets =
+    $derived(((Boolean(primary_skillset) && primary_skillset.size) ||
       (Boolean(secondary_skillset) && secondary_skillset.size)) &&
-    Boolean($store_selected_outpost);
+    Boolean($store_selected_outpost));
 
   store_character_name.subscribe(refreshStuff);
   store_primary_profession.subscribe(refreshStuff);
@@ -94,7 +94,7 @@
         >{$store_compact_icons ? "Compact" : "Large"} icons</label
       >
 
-      <button on:click={copyUrl}
+      <button onclick={copyUrl}
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

@@ -9,10 +9,19 @@
   import capitalize from "../../utils/capitalize";
   import SkillIcon from "../SkillIcon.svelte";
 
-  export let attributes: AttributesTree = null;
-  export let build: SkillsetEntry[] = [];
-  export let profession: Profession = "warrior";
-  export let secondary_profession: SecondaryProfession = "none";
+  interface Props {
+    attributes?: AttributesTree;
+    build?: SkillsetEntry[];
+    profession?: Profession;
+    secondary_profession?: SecondaryProfession;
+  }
+
+  let {
+    attributes = null,
+    build = [],
+    profession = "warrior",
+    secondary_profession = "none"
+  }: Props = $props();
 
   async function copyBuildTemplate() {
     notify_info("Generating build template...");
@@ -61,7 +70,7 @@
     <SkillIcon {skill} compact={$store_compact_icons} />
   {/each}
 
-  <button on:click={copyBuildTemplate} title="Generate & copy build template">
+  <button onclick={copyBuildTemplate} title="Generate & copy build template">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -79,7 +88,7 @@
   </button>
 
   <button
-    on:click={copyBuildTemplateCode}
+    onclick={copyBuildTemplateCode}
     title="Generate & copy build template code"
   >
     <svg

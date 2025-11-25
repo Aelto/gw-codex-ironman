@@ -3,10 +3,14 @@
   import type { SkillsetEntry } from "../stores/builds";
   import { store_wiki_iframe } from "../stores/wiki-iframe";
 
-  export let skill: SkillsetEntry;
-  export let compact = false;
+  interface Props {
+    skill: SkillsetEntry;
+    compact?: boolean;
+  }
 
-  $: profession = skill.options.profession;
+  let { skill, compact = false }: Props = $props();
+
+  let profession = $derived(skill.options.profession);
 
   const dispatch = createEventDispatcher();
   // github pages aren't hosted on a domain's root, each repository is in a sub
@@ -15,9 +19,9 @@
 
   // the global pve skills are not tied to a profession, their path points to a
   // special directory
-  $: src = skill.options.is_global_pve_skill
+  let src = $derived(skill.options.is_global_pve_skill
     ? `${image_root}/skill-icons/global-pve/${skill.icon}`
-    : `${image_root}/skill-icons/${profession}/${skill.icon}`;
+    : `${image_root}/skill-icons/${profession}/${skill.icon}`);
 
   function setWikiIframe(e, skill: SkillsetEntry) {
     e.preventDefault();
@@ -46,10 +50,10 @@
 </script>
 
 <a
-  on:dragstart={onDragStart}
-  on:dragend={onDragEnd}
+  ondragstart={onDragStart}
+  ondragend={onDragEnd}
   draggable="true"
-  on:click={(e) => setWikiIframe(e, skill)}
+  onclick={(e) => setWikiIframe(e, skill)}
   class="skill"
   href={`https://wiki.guildwars.com/?search=${skill.name}`}
   class:elite={skill.options.is_elite}

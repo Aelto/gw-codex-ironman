@@ -13,9 +13,9 @@
 
   const professions = all_professions;
 
-  let selected_profession: Profession | null = null;
+  let selected_profession: Profession | null = $state(null);
 
-  $: selected_region = getRegionForOutpost($store_selected_outpost);
+  let selected_region = $derived(getRegionForOutpost($store_selected_outpost));
 
   // github pages aren't hosted on a domain's root, each repository is in a sub
   // folder, so this is a way to get icons to load once pushed to production.
@@ -101,7 +101,7 @@
 
   <div class="profession-selector">
     {#each professions as profession}
-      <button on:click={() => (selected_profession = profession)}
+      <button onclick={() => (selected_profession = profession)}
         ><img
           src={`${image_root}/profession-icons/${profession}.png`}
           alt={`${profession} icon`}
@@ -109,7 +109,7 @@
       >
     {/each}
 
-    <button on:click={() => (selected_profession = null)}
+    <button onclick={() => (selected_profession = null)}
       ><svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -127,7 +127,7 @@
     >
 
     <button
-      on:click={generateTemplateZipFile}
+      onclick={generateTemplateZipFile}
       title="Generate & copy template folder with all hero builds"
     >
       <svg

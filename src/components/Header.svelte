@@ -12,9 +12,9 @@
   import { store_selected_skillpacks } from "../stores/skillpacks";
   import { ALL_SKILL_ORIGINS } from "../game/codegen/subgroups/campaigns";
 
-  let field_character_name;
+  let field_character_name = $state();
 
-  $: display_outposts = $store_character_name.length > 0;
+  let display_outposts = $derived($store_character_name.length > 0);
 
   store_input_focus.subscribe((field) => {
     if (field === InputFocusState.CharacterName) {
@@ -34,19 +34,19 @@
 
     <button
       class:active={$store_campaign == "Prophecies"}
-      on:click={() => store_campaign.set("Prophecies")}>Prophecies</button
+      onclick={() => store_campaign.set("Prophecies")}>Prophecies</button
     >
     <button
       class:active={$store_campaign == "Factions"}
-      on:click={() => store_campaign.set("Factions")}>Factions</button
+      onclick={() => store_campaign.set("Factions")}>Factions</button
     >
     <button
       class:active={$store_campaign == "Nightfall"}
-      on:click={() => store_campaign.set("Nightfall")}>Nightfall</button
+      onclick={() => store_campaign.set("Nightfall")}>Nightfall</button
     >
     <button
       class:active={$store_campaign == "GWEN"}
-      on:click={() => store_campaign.set("GWEN")}>GWEN</button
+      onclick={() => store_campaign.set("GWEN")}>GWEN</button
     >
   </div>
 

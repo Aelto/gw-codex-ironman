@@ -3,18 +3,22 @@
   import type { Profession, SecondaryProfession } from "../game/professions";
   import HeroSkillbar from "./hero-builds/HeroSkillbar.svelte";
 
-  export let profession: Profession = "warrior";
-  export let secondary_profession: SecondaryProfession = "none";
-  export let tree: AttributesSkillset = {
+  interface Props {
+    profession?: Profession;
+    secondary_profession?: SecondaryProfession;
+    tree?: AttributesSkillset;
+  }
+
+  let { profession = "warrior", secondary_profession = "none", tree = {
     attributes: new Map(),
     suggested_bars: [],
-  };
+  } }: Props = $props();
 
-  $: attributes = Array.from(tree.attributes.entries())
+  let attributes = $derived(Array.from(tree.attributes.entries())
     .map(([name, attrs]) => [name.replaceAll("-", " "), attrs])
-    .sort(([_, a], [__, b]) => Number(b) - Number(a));
+    .sort(([_, a], [__, b]) => Number(b) - Number(a)));
 
-  $: suggested_bars = tree.suggested_bars;
+  let suggested_bars = $derived(tree.suggested_bars);
 </script>
 
 <div class="attributes-tree">

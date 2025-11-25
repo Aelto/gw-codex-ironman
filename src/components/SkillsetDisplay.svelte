@@ -4,15 +4,19 @@
   import type { Skillset } from "../stores/builds";
   import SkillList from "./SkillList.svelte";
 
-  export let profession: Profession = "warrior";
-  export let skillset: Skillset = null;
+  interface Props {
+    profession?: Profession;
+    skillset?: Skillset;
+  }
+
+  let { profession = "warrior", skillset = null }: Props = $props();
 
   const is_heal = (s: Skill) => s.options.is_self_heal;
 
-  $: skills = Boolean(skillset) ? Array.from(skillset) : [];
-  $: regular_skills = skills.filter((s) => !s.options.is_elite && !is_heal(s));
-  $: heal_skills = skills.filter(is_heal).filter((s) => !s.options.is_elite);
-  $: elite_skills = skills.filter((s) => s.options.is_elite);
+  let skills = $derived(Boolean(skillset) ? Array.from(skillset) : []);
+  let regular_skills = $derived(skills.filter((s) => !s.options.is_elite && !is_heal(s)));
+  let heal_skills = $derived(skills.filter(is_heal).filter((s) => !s.options.is_elite));
+  let elite_skills = $derived(skills.filter((s) => s.options.is_elite));
 </script>
 
 {#if skills.length > 0}

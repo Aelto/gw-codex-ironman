@@ -5,7 +5,7 @@
     close,
   } from "../stores/notifications";
 
-  let notifications = [];
+  let notifications = $state([]);
 
   store_notifications.subscribe((arr) => {
     notifications = arr;
@@ -31,7 +31,7 @@
           >
         {/if}
         <button
-          on:click={() => close(notification.id)}
+          onclick={() => close(notification.id)}
           title="You can also use the Escape key to close notifications"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
