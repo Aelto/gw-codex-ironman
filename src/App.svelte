@@ -33,19 +33,24 @@
   import { notify_info } from "./stores/notifications";
   import HeroBuilds from "./components/hero-builds/HeroBuilds.svelte";
   import GamemodeSwapper from "./components/GamemodeSwapper.svelte";
-  import AttributesTree from "./components/AttributesTreeDisplay.svelte";
   import AttributesTreeDisplay from "./components/AttributesTreeDisplay.svelte";
+  import CodexRotationSwapper from "./components/CodexRotationSwapper.svelte";
+  import { store_codex_rotation } from "./stores/codex_rotations";
 
-  let primary_skillset = $derived($store_skillset.get($store_primary_profession));
-  let secondary_skillset =
-    $derived($store_secondary_profession !== "none"
+  let primary_skillset = $derived(
+    $store_skillset.get($store_primary_profession)
+  );
+  let secondary_skillset = $derived(
+    $store_secondary_profession !== "none"
       ? $store_skillset.get($store_secondary_profession)
-      : null);
+      : null
+  );
 
-  let can_display_skillsets =
-    $derived(((Boolean(primary_skillset) && primary_skillset.size) ||
+  let can_display_skillsets = $derived(
+    ((Boolean(primary_skillset) && primary_skillset.size) ||
       (Boolean(secondary_skillset) && secondary_skillset.size)) &&
-    Boolean($store_selected_outpost));
+      Boolean($store_selected_outpost)
+  );
 
   store_character_name.subscribe(refreshStuff);
   store_primary_profession.subscribe(refreshStuff);
@@ -55,6 +60,7 @@
   store_henchmen_count.subscribe(refreshStuff);
   store_players_count.subscribe(refreshStuff);
   store_gamemode.subscribe(refreshStuff);
+  store_codex_rotation.subscribe(refreshStuff);
 
   store_selected_skillpacks.subscribe(refreshBuildsStore);
 
@@ -82,6 +88,7 @@
 {#if can_display_skillsets}
   <div class="skillsets">
     <div class="options">
+      <CodexRotationSwapper />
       <GamemodeSwapper />
 
       <input
@@ -94,7 +101,9 @@
         >{$store_compact_icons ? "Compact" : "Large"} icons</label
       >
 
-      <button onclick={copyUrl}
+      <button
+        onclick={copyUrl}
+        title="Copy a preview link of your Codex into your clipboard"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -260,11 +269,12 @@
     width: calc(100% - 2em);
     justify-content: flex-end;
     padding: 0 1em;
+    gap: 1em;
   }
 
-  .skillsets .options > * + * {
+  /* .skillsets .options > * + * {
     margin-left: 1em;
-  }
+  } */
 
   #compact-mode {
     display: none;

@@ -1,4 +1,5 @@
 import type { Skillset } from "../../stores/builds";
+import type { CodexRotation } from "../../stores/codex_rotations";
 import type { SkillOrigin } from "../codegen/subgroups/campaigns";
 import type { Outpost } from "../outposts";
 import type { Profession } from "../professions";
@@ -14,6 +15,7 @@ export interface BuildGenOptions {
   players_count: number;
   hardmode: boolean;
   is_hero_build: boolean;
+  codex_rotation: CodexRotation;
 }
 
 export function generateSkillset(

@@ -1,5 +1,6 @@
 import type { BuildGenOptions } from ".";
 import type { Skillset, SkillsetEntry } from "../../stores/builds";
+import { codexRotationToSeed } from "../../stores/codex_rotations";
 import type { Skillbar } from "../../stores/skillbar";
 import type { SkillOrigin } from "../codegen/subgroups/campaigns";
 import { ALL_ELEMENTALIST_ELEMENTS } from "../codegen/subgroups/element";
@@ -59,11 +60,16 @@ export class BuildGenerator {
           options.is_primary_profession || !skill.options.is_primary_attribute
       );
 
+    const codex_rotation_string = codexRotationToSeed(options.codex_rotation);
+    console.log(codex_rotation_string);
+
     this.rng = new Rng(
-      `${character_name.toLowerCase()}-${outpost.link}-${profession}`
+      `${character_name.toLowerCase()}-${
+        outpost.link
+      }-${profession}-${codex_rotation_string}`
     );
     this.rng_profession_independent = new Rng(
-      `${character_name.toLowerCase()}-${outpost.link}`
+      `${character_name.toLowerCase()}-${outpost.link}-${codex_rotation_string}`
     );
 
     // if the profession is warrior, then we pick a random weapon mastery and

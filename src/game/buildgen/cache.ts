@@ -7,7 +7,7 @@ import type { Profession } from "../professions";
 /**
  * A in-memory cache to avoid computing the whole skillset from scratch everytime,
  * especially if the input doesn't change.
- * 
+ *
  * There is no localstorage for this, it is reset on reload.
  */
 const cache = new Map<string, Skillset>();
@@ -29,6 +29,7 @@ export function cacheKey(
     profession,
     options,
     available_skill_origins,
+    codex_rotation: options.codex_rotation,
   });
 }
 

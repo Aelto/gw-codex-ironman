@@ -111,23 +111,6 @@
       >
     {/each}
 
-    <button onclick={() => (selected_profession = null)}
-      ><svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-6 h-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg></button
-    >
-
     <button
       onclick={generateTemplateZipFile}
       title="Generate & copy template folder with all hero builds"
@@ -147,6 +130,27 @@
         />
       </svg>
     </button>
+
+    {#if selected_profession !== null}
+      <button
+        onclick={() => (selected_profession = null)}
+        title="Hide the hero builds preview"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg></button
+      >
+    {/if}
   </div>
 
   {#if selected_profession !== null}

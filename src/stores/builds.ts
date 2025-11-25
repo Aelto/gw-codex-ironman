@@ -18,6 +18,7 @@ import {
   type SuggestedAttributeBars,
   type AttributesSkillset,
 } from "../game/attributegen";
+import { store_codex_rotation } from "./codex_rotations";
 
 export type SkillsetEntry = Skill & { disabled: boolean };
 export type Skillset = Set<SkillsetEntry>;
@@ -55,6 +56,7 @@ export function refreshBuildsStore() {
         henchmen_count: get(store_henchmen_count),
         players_count: get(store_players_count),
         hardmode: get(store_gamemode) === "hard",
+        codex_rotation: get(store_codex_rotation),
         is_hero_build: false,
       }
     )
@@ -74,6 +76,7 @@ export function refreshBuildsStore() {
           henchmen_count: get(store_henchmen_count),
           players_count: get(store_players_count),
           hardmode: get(store_gamemode) === "hard",
+          codex_rotation: get(store_codex_rotation),
           is_hero_build: false,
         }
       )
