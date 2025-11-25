@@ -12,13 +12,15 @@
   import { store_selected_skillpacks } from "../stores/skillpacks";
   import { ALL_SKILL_ORIGINS } from "../game/codegen/subgroups/campaigns";
 
-  let field_character_name = $state();
+  let field_character_name: HTMLElement | null = $state(null);
 
   let display_outposts = $derived($store_character_name.length > 0);
 
   store_input_focus.subscribe((field) => {
     if (field === InputFocusState.CharacterName) {
-      field_character_name.focus();
+      if (field_character_name != null) {
+        field_character_name.focus();
+      }
     }
   });
 
