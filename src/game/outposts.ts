@@ -102,7 +102,7 @@ const ascalon: Region = {
   ],
 };
 const northern_shiverpeaks: Region = {
-  name: "Norther Shiverpeaks",
+  name: "Northern Shiverpeaks",
   outposts: [
     {
       name: "Yak's Bend",
