@@ -45,6 +45,7 @@ export class BuildGenerator {
   private campaign_progression_ratio: number = 1.0;
   private inherited_skills_count: number = 0;
   private hero_build_mode: boolean = false;
+  private hardmode: boolean = false;
 
   constructor(
     character_name: string,
@@ -55,6 +56,7 @@ export class BuildGenerator {
   ) {
     this.campaign_progression_ratio = getProgressionRatioForOutpost(outpost);
     this.hero_build_mode = options.is_hero_build;
+    this.hardmode = options.hardmode;
     this.available_skills = skills
       .get(profession)
       .filter((skill) => available_skill_origins.has(skill.options.origin))
@@ -404,7 +406,8 @@ export class BuildGenerator {
 
     const weighted_skill_selector = new WeightedSkillSelector(
       subset,
-      this.campaign_progression_ratio
+      // soft disable of the progression when HM is enabled
+      this.hardmode ? 1 : this.campaign_progression_ratio
     );
 
     const clamped_count = Math.min(subset.length, count);
