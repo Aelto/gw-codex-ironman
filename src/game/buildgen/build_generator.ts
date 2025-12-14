@@ -6,7 +6,7 @@ import type { SkillOrigin } from "../codegen/subgroups/campaigns";
 import { ALL_ELEMENTALIST_ELEMENTS } from "../codegen/subgroups/element";
 import { all_global_pve_skills } from "../codegen/subgroups/pve-only";
 import { ALL_WARRIOR_WEAPON_TYPES } from "../codegen/subgroups/weapons";
-import type { Outpost } from "../outposts";
+import { getProgressionRatioForOutpost, type Outpost } from "../outposts";
 import type { Profession } from "../professions";
 import { Rng } from "../rng";
 import skills, {
@@ -16,6 +16,7 @@ import skills, {
   type Skill,
 } from "../skills";
 import { setCachedBuild } from "./cache";
+import { WeightedSkillSelector } from "./weighted_skill_selector";
 
 export class BuildGenerator {
   private rng: Rng;
@@ -41,6 +42,7 @@ export class BuildGenerator {
   private skillset: Set<Skill> = new Set();
   private disabled_skills: Set<Skill> = new Set();
 
+  private campaign_progression_ratio: number = 1.0;
   private inherited_skills_count: number = 0;
   private hero_build_mode: boolean = false;
 
@@ -51,6 +53,7 @@ export class BuildGenerator {
     options: BuildGenOptions,
     available_skill_origins: Set<SkillOrigin>
   ) {
+    this.campaign_progression_ratio = getProgressionRatioForOutpost(outpost);
     this.hero_build_mode = options.is_hero_build;
     this.available_skills = skills
       .get(profession)
@@ -61,7 +64,6 @@ export class BuildGenerator {
       );
 
     const codex_rotation_string = codexRotationToSeed(options.codex_rotation);
-    console.log(codex_rotation_string);
 
     this.rng = new Rng(
       `${character_name.toLowerCase()}-${
@@ -400,13 +402,17 @@ export class BuildGenerator {
       return this;
     }
 
+    const weighted_skill_selector = new WeightedSkillSelector(
+      subset,
+      this.campaign_progression_ratio
+    );
+
     const clamped_count = Math.min(subset.length, count);
     const target_size = this.skillset.size + clamped_count;
     let shortcircuit = 100;
 
     while (this.skillset.size < target_size && shortcircuit--) {
-      const skill_index = this.rng.nextRange(subset.length);
-      const skill = subset.at(skill_index);
+      const skill = weighted_skill_selector.nextSkill(this.rng);
 
       if (this.skillset.has(skill)) {
         continue;

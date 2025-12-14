@@ -1123,3 +1123,23 @@ export function getRegionForOutpost(outpost: Outpost): Region {
     region.outposts.find((o) => o.link === outpost.link)
   );
 }
+
+export function getCampaignOutposts(campaign: Campaign): Outpost[] {
+  if (campaign == "Prophecies") {
+    return prophecy.flatMap((r) => r.outposts);
+  } else if (campaign == "Factions") {
+    return faction.flatMap((r) => r.outposts);
+  } else if (campaign == "Nightfall") {
+    return nightfall.flatMap((r) => r.outposts);
+  } else if (campaign == "GWEN") {
+    return gwen.flatMap((r) => r.outposts);
+  }
+}
+
+export function getProgressionRatioForOutpost(outpost: Outpost): number {
+  const campaign = getOutpostCampaign(outpost);
+  const outposts = getCampaignOutposts(campaign);
+  const index = outposts.findIndex((o) => o.name == outpost.name);
+
+  return index / outposts.length;
+}
