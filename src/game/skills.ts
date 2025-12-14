@@ -77,7 +77,7 @@ function makeSkillWarrior(link, options: Partial<SkillOptions> = {}): Skill {
 }
 
 function makeSkillRanger(link, options: Partial<SkillOptions> = {}): Skill {
-  return makeSkill(link, { profession: "warrior", ...options });
+  return makeSkill(link, { profession: "ranger", ...options });
 }
 
 function makeSkillMonk(link, options: Partial<SkillOptions> = {}): Skill {
